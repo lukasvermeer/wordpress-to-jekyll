@@ -24,12 +24,14 @@ function processExport() {
 
 			
 			fs.mkdir('out', function() {
+        fs.mkdir('out/_posts', function() {
 		        for(var i = 0; i < posts.length; i++) {
 	        		processPost(posts[i]);
 		        	//console.log(util.inspect(posts[i]));
 		        }
-			});
+          });
 	    });
+    });
 	});
 }
 
@@ -56,11 +58,9 @@ function processPost(post) {
 		}
 	}
 
-	var fullPath = 'out/' + postDate.getFullYear() + '/' + getPaddedMonthNumber(postDate.getMonth() + 1) + '/' + slug;
+  var fullPostName = postDate.getFullYear() + '-' + getPaddedMonthNumber(postDate.getMonth() + 1) + '-' + getPaddedDayNumber(postDate.getDate()) + '-' + slug;
+	var fullPath = 'out/_posts/' + fullPostName;
 
-	fs.mkdir('out/' + postDate.getFullYear(), function() {
-		fs.mkdir('out/' + postDate.getFullYear() + '/' + getPaddedMonthNumber(postDate.getMonth() + 1), function() {
-			fs.mkdir(fullPath, function() {
 				//Find all images
 				var patt = new RegExp("(?:src=\"(.*?)\")", "gi");
 				
@@ -73,6 +73,7 @@ function processPost(post) {
 
 
 				if(matches != null && matches.length > 0) {
+          fs.mkdir('out/assets', function() {
 					for(var i = 0; i < matches.length; i++) {
 						//console.log('Post image found: ' + matches[i])
 
@@ -80,14 +81,15 @@ function processPost(post) {
 						var urlParts = matches[i].split('/');
 						var imageName = urlParts[urlParts.length - 1];
 
-						var filePath = fullPath + '/' + imageName;
+						var filePath = 'out/assets/' + fullPostName + '-' + imageName;
 
 						downloadFile(url, filePath);
 
 						//Make the image name local relative in the markdown
-						postData = postData.replace(url, imageName);
+						postData = postData.replace(url, filePath);
 						//console.log('Replacing ' + url + ' with ' + imageName);
 					}
+          });
 				}
 
 				var markdown = toMarkdown.toMarkdown(postData);
@@ -125,12 +127,9 @@ function processPost(post) {
 				header += "---\n";
 				header += "\n";
 
-				fs.writeFile(fullPath + '/index.html.md', header + markdown, function(err) {
+				fs.writeFile(fullPath + '.markdown', header + markdown, function(err) {
 
 				});
-			});
-		});		
-	});
 }
 
 function downloadFile(url, path) {
