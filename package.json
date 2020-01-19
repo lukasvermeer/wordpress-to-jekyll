@@ -1,26 +1,30 @@
 {
-  "title": "Wordpress to Markdown",
-  "name": "wordpress-to-markdown",
+  "title": "Wordpress to Jekyll",
+  "name": "wordpress-to-jekyll",
   "keywords": [
     "wordpress",
     "markdown",
+    "jekyll",
     "convert"
   ],
   "author": "Jason Young - jason@ytechie.com - ytechie.com",
+  "contributors": [
+    "Lukas Vermeer"
+  ],
   "bugs": {
-    "url": "https://github.com/ytechie/wordpress-to-markdown/issues"
+    "url": "https://github.com/lukasvermeer/wordpress-to-jekyll/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ytechie/wordpress-to-markdown.git"
+    "url": "https://github.com/lukasvermeer/wordpress-to-jekyll.git"
   },
   "engines": {
     "node": ">=0.8",
     "npm": ">=1.2"
   },
   "dependencies": {
-    "to-markdown": "~0.0.1",
-    "xml2js": "~0.2.8"
+    "to-markdown": "0.0.3",
+    "xml2js": "^0.2.8"
   },
   "main": "convert.js"
 }
