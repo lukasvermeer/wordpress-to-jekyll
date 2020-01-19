@@ -40,6 +40,7 @@ function processPost(post) {
 
 	var postTitle = post.title;
 	console.log('Post title: ' + postTitle);
+	var postLink = post.link;
 	var postDate = new Date(post.pubDate);
 	console.log('Post Date: ' + postDate);
 	var postData = post['content:encoded'][0];
@@ -124,6 +125,9 @@ function processPost(post) {
 				header += "date: " + postDate.getFullYear() + '-' + getPaddedMonthNumber(postDate.getMonth() + 1) + '-' + getPaddedDayNumber(postDate.getDate()) + "\n";
 				if(categories.length > 0)
 					header += "tags: " + JSON.stringify(categories) + '\n';
+				header += "original:\n";
+				header += "  source_name: Wordpress\n";
+				header += "  source_url: "+ postLink + "\n";
 				header += "---\n";
 				header += "\n";
 
