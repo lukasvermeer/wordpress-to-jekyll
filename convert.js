@@ -2,7 +2,7 @@ var xml2js = require('xml2js');
 var fs = require('fs');
 var util = require('util');
 var toMarkdown = require('to-markdown');
-var http = require('http');
+var request = require('request');
 
 processExport();
 
@@ -135,22 +135,13 @@ function processPost(post) {
 function downloadFile(url, path) {
 	 //console.log("Attempt downloading " + url + " to " + path + ' ' + url.indexOf("https:") );
 	if (url.indexOf("https:")  == -1) {
-		if (url.indexOf(".jpg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".png") >=0) {
-			var file = fs.createWriteStream(path).on('open', function() {
-				var request = http.get(url, function(response) {
-				console.log("Response code: " + response.statusCode);
-				response.pipe(file);
-			}).on('error', function(err) {
-				console.log('error downloading url: ' + url + ' to ' + path);
-		});
-		}).on('error', function(err) {
-				console.log('error downloading url2: ' + url + ' to ' + path);
-
-		});
-	}
-	else {
-	  console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
-	}
+		if (url.indexOf(".jpg") >=0 || url.indexOf(".jpeg") >=0 || url.indexOf(".png") >=0 || url.indexOf(".png") >=0) {
+			var file = fs.createWriteStream(path);
+      request(url).pipe(file);
+		}
+    else {
+      console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
+    }
 	}
 	else {
 	  console.log ('passing on: ' + url + ' ' + url.indexOf('https:')); 
