@@ -13,3 +13,7 @@ results
 
 npm-debug.log
 node_modules
+
+export.xml
+out/*
+package-lock.json
