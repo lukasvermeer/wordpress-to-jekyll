@@ -82,12 +82,18 @@ function processPost(post) {
         const filePath = `out/assets/${fullPostName}-${imageName}`;
 
         downloadFile(url, filePath);
-
-        // Make the image name local relative in the markdown
-        postData = postData.replace(url, filePath);
-        // console.log('Replacing ' + url + ' with ' + imageName);
       }
     });
+  }
+
+  for (let i = 0; i < matches.length; i += 1) {
+    const url = matches[i];
+    const urlParts = matches[i].split('/');
+    const imageName = urlParts[urlParts.length - 1];
+
+    // Make the image name local relative in the markdown
+    postData = postData.replace(url, "{{site.baseurl}}{% link assets/" + fullPostName + "-" + imageName + " %}");
+    // console.log('Replacing ' + url + ' with ' + imageName);
   }
 
   let markdown = toMarkdown.toMarkdown(postData);
